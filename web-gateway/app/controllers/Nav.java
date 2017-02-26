@@ -12,6 +12,7 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.TimeZone;
 
@@ -21,24 +22,14 @@ public class Nav {
     private final PSequence<User> users;
     private final Optional<User> user;
     // todo - make these based on users language/timezone
-    private static final PrettyTime prettyTime = new PrettyTime();
+    private static final PrettyTime prettyTime = new PrettyTime(Locale.JAPANESE);
     static {
-        prettyTime.removeUnit(JustNow.class);
-        ResourcesTimeUnit justNow = new ResourcesTimeUnit() {
-            {
-                setMaxQuantity(10000);
-            }
-            @Override
-            protected String getResourceKeyPrefix() {
-                return "JustNow";
-            }
-        };
-        prettyTime.registerUnit(justNow, new ResourcesTimeFormat(justNow));
+        prettyTime.getUnit(JustNow.class).setMaxQuantity(10000);
     }
 
     private static final ZoneId zoneId = ZoneId.systemDefault();
-    private static final DateTimeFormatter todayFormatter = DateTimeFormatter.ofPattern("HH:mm");
-    private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm");
+    private static final DateTimeFormatter todayFormatter = DateTimeFormatter.ofPattern("HH:mm", Locale.JAPANESE);
+    private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm", Locale.JAPANESE);
 
     public Nav(Messages messages, PSequence<User> users, Optional<User> user) {
         this.messages = messages;

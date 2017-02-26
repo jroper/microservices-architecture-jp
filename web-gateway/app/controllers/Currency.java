@@ -30,7 +30,11 @@ public enum Currency {
     }
 
     public String getDisplayName() {
-        return currency.getDisplayName();
+        return currency.getDisplayName(Locale.JAPANESE);
+    }
+
+    public int getStep() {
+        return step;
     }
 
     private double toDecimal(int value) {
